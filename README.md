@@ -73,7 +73,8 @@ CLASSES
      |  
      |  Example 1:
      |  To create a NEW USER (one that does not yet exist in the mongodb), as "bob"
-     |  bob = ufo.MeteorUser(email='bob@bobsemailaddress.com', password='MyPassw0rd2014')
+     |  import meteorUFO
+     |  bob = meteorUFO.MeteorUser(email='bob@bobsemailaddress.com', password='MyPassw0rd2014')
      |  
      |  To send bob down to the meteor dev passwordless mongodb (db meteor) running locally on port 3001
      |  import meteorUFO
@@ -170,7 +171,7 @@ CLASSES
      |  nuke(self, email=None, meteorUser=None)
      |      delete user by email address or by meteorUser.user[_id] field
      |  
-:     |  
+     |  
      |      set mongodb URL to new url and initiate MongoDB connection
      |      
      |      ufo.orbit(...) must be called and the connection must be good for
