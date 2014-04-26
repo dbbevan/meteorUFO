@@ -9,7 +9,7 @@ by connecting to the mongodb data base for the meteor app and manipulating the u
 
 Compatible with (and can recompute) Meteor cryptographic SRP tokens.
 
-April 26, 2014 -- Initial Release.
+April 26, 2014 -- Initial Release.  Don't blame me if it mutilates your cattle.
 
 ###Installation
 
