@@ -11,7 +11,7 @@ Compatible with (and can recompute) Meteor cryptographic SRP tokens.
 
 April 26, 2014 -- Initial Release.
 
-###Installtion
+###Installation
 
 Everything is in a single python file: meteorUFO.py
 
