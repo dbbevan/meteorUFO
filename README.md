@@ -15,11 +15,15 @@ April 26, 2014 -- Initial Release.
 
 Everything is in a single python file: meteorUFO.py
 
+Click that "Download ZIP" button to the right, or use git clone, and then
+copy meteorUFO.py to wherever you need it to go.  
+
+
 ###Help
 
 Python help is included
 
-Once you have this file, you can do this:
+Once you have the meteorUFO.py file in your directory, you can do this:
 
 ```
 $ python (run python)
@@ -28,6 +32,12 @@ help(meteorUFO)
 ```
 
 If the help is insufficient, read the source code.  There's not that much.
+
+You don't need to understand the internal  SRP cryptographic functionality 
+to create, delete, update, etc... Meteor users.  
+
+You will need to know your `MONGO_URL` for accessing the mongoDB associated
+with the meteor application.  
 
 ###API
 
