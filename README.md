@@ -34,7 +34,14 @@ help(meteorUFO)
 If the help is insufficient, read the source code.  There's not that much.
 
 You don't need to understand the internal  SRP cryptographic functionality 
-to create, delete, update, etc... Meteor users.  
+to create, delete, update, etc... Meteor users as this library will handle
+those aspects for you.  In summary, the Meteor framework replaces user passwords
+with a cryptographic SRP token, and uses that token to check passwords later so
+that passwords are never sent back and forth in clear text. 
+
+But this also makes it difficult to create/update users from outside the app.... until now. 
+This python library is compatible with that same cryptography.
+
 
 You will need to know your `MONGO_URL` for accessing the mongoDB associated
 with the meteor application.  
