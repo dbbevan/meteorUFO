@@ -194,11 +194,14 @@ class UFO:
   def nuke(self, email=None, meteorUser=None):
     '''
     delete user by email address or by meteorUser.user[_id] field
+    This will delete at most 1 user.
     '''
+    # Thanks to Neil Lunn for clearing up the option is "safe" not "justOne"
+    # in his SO answer at http://stackoverflow.com/a/23335020/103081
     if email is not None:
-      return self.users.remove({"emails.address":email})
+      return self.users.remove({"emails.address":email}, safe=True)
     if meteorUser is not None:
-      return self.users.remove({"_id":meteorUser.user['_id']})
+      return self.users.remove({"_id":meteorUser.user['_id']}, safe=True)
   
 def meteorSecret():
   '''
