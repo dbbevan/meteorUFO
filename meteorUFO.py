@@ -159,8 +159,14 @@ class UFO:
     ufo.orbit(...) must be called and the connection must be good for
     any of the other ufo methods to work.
     '''
+    self.c = r''
+    self.db = r''
+    self.users = r'Not Connected'
     self.mongourl = newurl
     self.c = pymongo.MongoClient(newurl)
+    self.db = self.c.get_default_database()
+    self.users = self.db.users
+    test = self.users.find_one({})
     
   def beamUp(self, email=None):
     '''
@@ -168,8 +174,7 @@ class UFO:
     searches by email
     returns class MeteorUser defined herein
     '''
-    users = self.c.meteor.users
-    user = users.find_one({"emails.address":email})
+    user = self.users.find_one({"emails.address":email})
     if user is None:
       return None
     else:
@@ -182,18 +187,18 @@ class UFO:
     Without replace=True, will insert new unique user or throw error
     '''
     if replace:
-      return self.c.meteor.users.save(meteorUser.user)
+      return self.users.save(meteorUser.user)
     else:
-      return self.c.meteor.users.insert(meteorUser.user)
+      return self.users.insert(meteorUser.user)
 
   def nuke(self, email=None, meteorUser=None):
     '''
     delete user by email address or by meteorUser.user[_id] field
     '''
     if email is not None:
-      return self.c.meteor.users.delete({"emails.address":email})
+      return self.users.delete({"emails.address":email})
     if meteorUser is not None:
-      return self.c.meteor.users.delete({"_id":meteorUser.user['_id']})
+      return self.users.delete({"_id":meteorUser.user['_id']})
   
 def meteorSecret():
   '''
