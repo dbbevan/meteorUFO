@@ -39,7 +39,7 @@ class MeteorUser:
   
   '''
   
-  def __init__(self, user=None, email=None, password=None):
+  def __init__(self, email=None, password=None, user=None):
     ''' 
     the constructor for MeteorUser expects either an old user or new user
     either call will initialize self.user
