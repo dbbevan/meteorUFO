@@ -196,9 +196,9 @@ class UFO:
     delete user by email address or by meteorUser.user[_id] field
     '''
     if email is not None:
-      return self.users.delete({"emails.address":email})
+      return self.users.remove({"emails.address":email}, {justOne: True})
     if meteorUser is not None:
-      return self.users.delete({"_id":meteorUser.user['_id']})
+      return self.users.remove({"_id":meteorUser.user['_id']}, {justOne: True})
   
 def meteorSecret():
   '''
