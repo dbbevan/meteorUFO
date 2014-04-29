@@ -71,6 +71,8 @@ CLASSES
      |  Instances are local copies.  They may have been read off of a mongodb, or
      |  created locally with a email/password pair.
      |  
+     |  If needed, field 'user' contains the raw user object.
+     |  
      |  Example 1:
      |  To create a NEW USER (one that does not yet exist in the mongodb), as "bob"
      |  import meteorUFO
@@ -176,6 +178,11 @@ CLASSES
      |      
      |      ufo.orbit(...) must be called and the connection must be good for
      |      any of the other ufo methods to work.
+     |  
+     |  scan(self, query=None)
+     |      return MeteorUser valued generator for find query run on users
+     |      translates 'email' --> 'emails.address' in find query 
+     |      missing query finds all users
 
 FUNCTIONS
     meteorSecret()

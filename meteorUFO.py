@@ -15,6 +15,8 @@ class MeteorUser:
   
   Instances are local copies.  They may have been read off of a mongodb, or
   created locally with a email/password pair.
+
+  If needed, field 'user' contains the raw user object.
   
   Example 1:
   To create a NEW USER (one that does not yet exist in the mongodb), as "bob"
@@ -203,7 +205,22 @@ class UFO:
       return self.users.remove({"emails.address":email}, safe=True)
     if meteorUser is not None:
       return self.users.remove({"_id":meteorUser.user['_id']}, safe=True)
-  
+
+  def scan(self, query=None):
+    '''
+    return MeteorUser valued generator for find query run on users
+    translates 'email' --> 'emails.address' in find query 
+    missing query finds all users
+    '''
+    if query is not None:
+      if 'email' in query:
+        query['emails.address']=query['email']
+        del query['email']
+    else:
+      query = {}
+    for U in self.users.find(query):
+      yield MeteorUser(user=U)
+
 def meteorSecret():
   '''
   used internally to create salt and other (probably unique) random ids
