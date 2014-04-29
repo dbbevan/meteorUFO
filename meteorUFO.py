@@ -2,6 +2,7 @@
 import pymongo
 import hashlib
 import datetime
+import time
 import binascii
 import os
 import copy
@@ -395,17 +396,51 @@ FC026E479558E4475677E9AA9E3050E2765694DFC81F56E880B96E71\
   _v = long_to_hex( pow(g,  gen_x( hash_class, salt, username, password ), N) ) 
   return _v
   
-def test():
+def test(mongoURL=NITROUS_DEV):
   '''  
-  This test() routine will install a user with email "test@email.com" and
-  password marvin on a local meteor installation on a nitrous.io box the author used
-  during development.
-  
-  It will then pull the user record for test@email.com from the mongodb and display it
+  This test() routine takes the mongoURL to the mongoDB and performs
+  testing with that mongodb. It will install a user with email "test@test.test" and
+  a random password, fetch it, change the password, and delete the user,
+  pausing for 60 seconds in places to allow testing the login interface
   '''
   ufo = UFO()
-  ufo.orbit('mongodb://localhost:3001/meteor')
-  u = MeteorUser(email=u'test@email.com',password=u'marvin')
+  myemail = u'test@test.test'
+  print "about to ufo.orbit("+mongoURL+")"
+  ufo.orbit(mongoURL)
+  print "ufo in standard orbit "
+  print "nuke any previous "+myemail
+  ufo.nuke(email=myemail)
+  print "create object for new user "+myemail+" locally "
+  password=os.urandom(3).encode("hex")
+  print "password = "+password
+  u = MeteorUser(email=myemail,password=password)
+  print "ufo beaming down new user to meteor"
   ufo.beamDown(u)
-  print repr(ufo.beamUp(u'test@email.com').user)
+  print "ufo beaming up user from meteor "
+  u2 = ufo.beamUp(myemail)
+  if u2 is None:
+    print "Error, did not find "+myemail+" "
+    return None
+  else:
+  # don't compare for exact copies, won't match because 
+  # mongoDB mangles created datetime to nearest minute
+     print "....user created, good"
+  print "entering 60 second sleep to allow testing new user "
+  time.sleep(60)
+  password = os.urandom(4).encode("hex")
+  print "changing password to : "+password
+  u2.set_password(password)
+  print "beaming down user with changed password, replacing old user"
+  ufo.beamDown(u2,replace=True)
+  print "waiting 60 seconds to allow testing new password"
+  time.sleep(60)
+  print "ufo will nuke "+myemail
+  ufo.nuke(email=myemail)
+  print "checking..."
+  u3 = ufo.beamUp(email=myemail)
+  if u3 is None:
+    print ".... good "+myemail+" has been deleted"
+  else:
+    print "..... error "+myemail+" still found"
+  print 'end of test() \n'
 
