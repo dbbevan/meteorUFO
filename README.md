@@ -93,10 +93,9 @@ CLASSES
      |      susan.set_password('notanotherpassword')
      |      ufo.beamDown(susan, replace=True)
      |  
-     |  
      |  Methods defined here:
      |  
-     |  __init__(self, user=None, email=None, password=None)
+     |  __init__(self, email=None, password=None, user=None)
      |      the constructor for MeteorUser expects either an old user or new user
      |      either call will initialize self.user
      |      
@@ -170,15 +169,15 @@ CLASSES
      |  
      |  nuke(self, email=None, meteorUser=None)
      |      delete user by email address or by meteorUser.user[_id] field
+     |      This will delete at most 1 user.
      |  
-     |  
+     |  orbit(self, newurl)
      |      set mongodb URL to new url and initiate MongoDB connection
      |      
      |      ufo.orbit(...) must be called and the connection must be good for
      |      any of the other ufo methods to work.
 
-FUNCTIONS (consider these as internal functions -- these are called internally in the classes above for you)
-
+FUNCTIONS
     meteorSecret()
         used internally to create salt and other (probably unique) random ids
         returns 43 char random base64 string 
@@ -186,12 +185,11 @@ FUNCTIONS (consider these as internal functions -- these are called internally i
         meteor github source at 
         https://github.com/meteor/meteor/blob/devel/packages/random/random.js
     
-    test()
-        This test() routine will install a user with email "test@email.com" and
-        password marvin on a local meteor installation on a nitrous.io box the author used
-        during development.
-        
-        It will then pull the user record for test@email.com from the mongodb and display it
+    test(mongoURL='mongodb://localhost:3001/meteor')
+        This test() routine takes the mongoURL to the mongoDB and performs
+        testing with that mongodb. It will install a user with email "test@test.test" and
+        a random password, fetch it, change the password, and delete the user,
+        pausing for 60 seconds in places to allow testing the login interface
     
     verifier(username, password, salt, hash_alg=<built-in function openssl_sha256>, ng_type=0, n_hex=None, g_hex=None)
         Generate cryptographic SRP Verifier used in meteor's user srp field
@@ -210,7 +208,7 @@ FUNCTIONS (consider these as internal functions -- these are called internally i
         and so the 2nd hash inputs end up looking different as do the outputs even when the final python output
         is converted to a hex string.  To fix, the change is primarily to change the long_to_bytes function
         used to rehash back to a hex string so as obtained a match to the Meteor JS code. 
- 
+        
         Another issue is that MeteorJS's srp code take the salt as an input, whereas the python
         code provides a seed as output.  This was solved by adding a verification_token() 
         method that behaves as the JS srp code.
@@ -222,9 +220,5 @@ FUNCTIONS (consider these as internal functions -- these are called internally i
 
 DATA
     NITROUS_DEV = 'mongodb://localhost:3001/meteor'
-
-```
-
-
 
 
