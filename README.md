@@ -11,6 +11,11 @@ Compatible with (and can recompute) Meteor cryptographic SRP tokens.
 
 April 26, 2014 -- Initial Release.  Don't blame me if it mutilates your cattle.
 
+June 26, 2014 -- WARNING: meteorUFO is incompatible with the new bcrypt account-password handler in Meteor 0.8.2,
+as meteorUFO uses the old SRP (secure remote password): "Clients that use the SRP will no longer work" [Meteor 0.8.2 release note](https://github.com/meteor/meteor/blob/release/0.8.2/History.md)
+
+
+
 ###Installation
 
 Everything is in a single python file: meteorUFO.py
